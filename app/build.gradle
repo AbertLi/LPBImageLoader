@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+//添加插件
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "com.example.interviewquestions"
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //加入kotlin的特性
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(':myglide')
+
+    //Fresco引用
+//    implementation 'com.facebook.fresco:fresco:2.2.0'
+//    implementation "androidx.core:core:1.2.0"
+//    implementation 'com.facebook.fresco:imagepipeline-okhttp3:2.1.0'
+//    //RxJavay引用
+//    implementation "io.reactivex.rxjava3:rxjava:3.0.4"
+
+
+//    implementation 'com.facebook.fresco:fresco:0.14.1'
+//    implementation 'com.facebook.fresco:animated-base-support:0.14.1'//在 API < 14 上的机器支持 WebP 时，需要添加以下依赖
+//    implementation 'com.facebook.fresco:animated-gif:0.14.1'         //支持GIF动图，需要添加以下依赖
+//    implementation 'com.facebook.fresco:webpsupport:0.14.1'                 //支持WebP，需要添加以下依赖
+//    implementation 'com.facebook.fresco:animated-webp:0.14.1'               //支持WebP动图，需要添加以下依赖
+//    implementation 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'       // 网络实现层想使用okhttp3，需要添加以下依赖
+
+
+//        //其他依赖
+    implementation 'com.facebook.fresco:fresco:0.12.0'
+//        // 在 API < 14 上的机器支持 WebP 时，需要添加
+    implementation 'com.facebook.fresco:animated-base-support:0.12.0'
+//        // 支持 GIF 动图，需要添加
+    implementation 'com.facebook.fresco:animated-gif:0.12.0'
+//        // 支持 WebP （静态图+动图），需要添加
+    implementation 'com.facebook.fresco:animated-webp:0.12.0'
+    implementation 'com.facebook.fresco:webpsupport:0.12.0'
+//        // 仅支持 WebP 静态图，需要添加
+    implementation 'com.facebook.fresco:webpsupport:0.12.0'
+
+
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+}

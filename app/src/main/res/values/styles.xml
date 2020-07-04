@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.Light.NoTitleBar">
+    </style>
+
+    <!-- 白色背景，状态栏标题栏均不可见。 -->
+    <style name="AppThemeFullScreen" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+    </style>
+
+</resources>
