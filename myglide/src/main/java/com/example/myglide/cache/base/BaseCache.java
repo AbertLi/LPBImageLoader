@@ -1,6 +1,8 @@
 package com.example.myglide.cache.base;
 
-public interface BaseCache<T, M> {
+import android.graphics.Bitmap;
+
+public interface BaseCache {
 
     /**
      * 存入
@@ -8,14 +10,14 @@ public interface BaseCache<T, M> {
      * @param key
      * @param value
      */
-    void put(T key, M value);
+    void put(String key, Bitmap value);
 
     /**
      * 获取
      *
      * @return
      */
-    M get();
+    Bitmap get(String key);
 
 
     /**
@@ -23,5 +25,5 @@ public interface BaseCache<T, M> {
      *
      * @param key
      */
-    void remove(T key);
+    void remove(String key);
 }
