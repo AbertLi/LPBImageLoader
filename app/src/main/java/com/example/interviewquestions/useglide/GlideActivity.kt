@@ -1,5 +1,6 @@
 package com.example.interviewquestions.useglide
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -7,12 +8,23 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.GenericLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.interviewquestions.R
 import com.example.myglide.request.RequestListener
+import com.example.myglide.uril.LogUtil
 
-class GlideActivity : Activity() {
-    val TAG = "GlideActivity"
+@Suppress("DEPRECATION")
+class GlideActivity : AppCompatActivity() {
+    companion object{
+        val TAG = "GlideActivity"
+    }
     private var scrollLinerLayout: LinearLayout? = null
     private var arrayImageUrl: Array<String>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +32,14 @@ class GlideActivity : Activity() {
         setContentView(R.layout.activity_glide)
         scrollLinerLayout = findViewById(R.id.scroll_ll)
         initArray()
+        this.lifecycle.addObserver(object : LifecycleObserverImp(){})
+    }
+
+    @SuppressLint("RestrictedApi")
+    open class LifecycleObserverImp : GenericLifecycleObserver {
+        override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+            LogUtil.e(TAG,"souurcce="+source.lifecycle.currentState.toString())
+        }
     }
 
     fun initArray() {
@@ -77,9 +97,32 @@ class GlideActivity : Activity() {
         for (strUrl: String in arrayImageUrl!!) {
             var imageView = ImageView(this)
             scrollLinerLayout?.addView(imageView)
+            //简单使用
             Glide.with(this)
                     .load(strUrl)
                     .into(imageView);
+        }
+    }
+
+    fun glideImage2() {
+        for (strUrl: String in arrayImageUrl!!) {
+            var imageView = ImageView(this)
+            scrollLinerLayout?.addView(imageView)
+            //简单使用
+            Glide.with(this)//指定Context（可以接上Activity，fragment，Application等,这个决定了图的生命周期）
+                    .load(strUrl)   //有很多重载方法。可以视网络图片，可以本地图片等等。
+                    .placeholder(R.drawable.loading)  //占位图（网络图片还没有加载下来的时候展示此图）
+                    .error(R.drawable.error) //网络加载失败的占位图
+                    .override(100,100)//指定图片尺寸，glide不会把图片完整加载到内存中，他会展示多少，加载多少。（免得浪费内存）
+                    .fitCenter()//指定图片缩放类型。（完全显示）
+                    .centerCrop()//指定图片缩放类型。（填充ImageView图像不会完全显示）
+                    .skipMemoryCache(true)//跳过内存缓存。（默认为true）
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)//跳过磁盘缓存。
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)//置换存原始分辨率的图像。
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)//之缓存降低分辨率的图片。
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存原始图，和降低分辨率的图。
+                    .priority(Priority.HIGH)//指定优先级HIGH， IMMEDIATE，LOW，NORMAL（指定的等级越高，就会越优先去下载这个图片）
+                    .into(imageView);//指定显示图的ImageView
         }
     }
 
